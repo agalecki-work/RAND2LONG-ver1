@@ -1,4 +1,4 @@
-%put :=== autoexec.sas (PROJECT) STARTS;
+%put ===> autoexec.sas (PROJECT) STARTS;
 
 %global repo_name repo_path prj_name prj_path;
 %let repo_name = RAND2LONG;
@@ -19,10 +19,8 @@ filename _desc clear;
 %put prj_name  := &prj_name;
 %put prj_path  := &prj_path;
 
-
-
-%put :=== autoexec.sas (PROJECT) ENDS;
-
+%put --- autoexec.sas (PROJECT) ENDS;
+%put; 
 
 
 

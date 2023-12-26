@@ -1,6 +1,6 @@
 %macro _project_setup;
 /* Macro vars `repo_name`, `repo_path`, `prj_name`, `dir_name` defined in `_project_auto.inc` */
-%put --- `_project_setup` macro STARTS here;
+%put ===> `_project_setup` macro STARTS here;
 
 /* Declare global macro variables */
 %global repo_path repo_name prj_name dir_name;
@@ -11,7 +11,7 @@
 %let prj_path = &repo_path\&prj_name;
 
 /*------ Excel file multiple maps ------*/
-%let xlsx_nickname = test2_maps;   /* test_maps  */
+%let xlsx_nickname = test2_maps;   /* */
 %let xlsx_date =23DEC2023;
 %let xlsx_path = C:\temp;
 %let xlsx_name =&xlsx_nickname&xlsx_date;   
@@ -45,6 +45,7 @@ libname LIBIN "C:\temp" access=readonly;
 %put formats_cntlin  := formats_cntlin;
 %put fcmp_src_path   := &fcmp_src_path;
 %put --- `project_setup` macro ENDS here`;
+%put; 
 %mend _project_setup;
 
 

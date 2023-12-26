@@ -1,5 +1,7 @@
 %macro zzz_xlsx_include;
 
+%include macros(import_xlsx_map);
+
 %include macros(import_xlsx_maps_info);
 
 %macro skip;

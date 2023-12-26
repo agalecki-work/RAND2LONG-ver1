@@ -7,7 +7,7 @@
 %put  - macro `zzz_20main_execute`;
 %include _macros(zzz_20main_execute);
 
-%put ===> Macro `zzz_20include` ENDS here ======;
-
+%put --- Macro `zzz_20include` ENDS here ======;
+%put;
 %mend zzz_20include;
 
