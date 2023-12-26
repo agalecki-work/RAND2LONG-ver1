@@ -1,5 +1,5 @@
-%macro zzz_util_include;
-
+%macro zzz_utils_include;
+%put ===> Macro `zzz_utils_include` STARTS here;
 /*-- `attrn_nlobs` */
 %put  - macro `attrn_nlobs`;
 %include _macros(attrn_nlobs);
@@ -20,6 +20,9 @@
 /*-- `contents_data` */
 %put  - macro `contents_data`;
 %include _macros(contents_data);
+/*-- `isBlank` */
+%put  - macro `isBlank`;
+%include _macros(isBlank);
 
 /*-- `traceit_print` */
 %put  - macro `traceit_print`;
@@ -33,8 +36,7 @@
 %put  - macro `traceit`;
 %include _macros(traceit);
 
-/*-- `isBlank` */
-%put  - macro `isBlank`;
-%include _macros(isBlank);
+%put --- Macro `zzz_utils_include` ENDS here;
+%put;
 
-%mend zzz_util_include;
+%mend zzz_utils_include;
