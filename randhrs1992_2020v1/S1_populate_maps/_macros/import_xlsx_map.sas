@@ -20,91 +20,49 @@ quit;
 proc sql noprint;
 alter table _temp_
   modify clength char(5) format = $5.,
-         wave_pattern char(40) format = $40.;
+         wave_pattern char(40) format = $40.,
+         wave_summary char(40) format = $40.,
+         dispatch char(100) format = $100.;
+         
 quit;
 
+%if %upcase(&table) = RSSI %then %do;
+proc sql noprint;
+alter table _temp_
+  modify
+ %do i=1 %to 10;
+    RSSI_E&i char(40) format = $40.,
+ %end;
+    RSSI_E11 char(40) format = $40.;
+quit;
+%end;
 
-%put --- sanitize_clength STARTS ---;
+%if (%upcase(&table) = RLONG or %upcase(&table) = HLONG)  %then %do;
+proc sql noprint;
+alter table _temp_
+  modify
+ %do i=1 %to 14;
+    hrs_wave&i char(40) format = $40.,
+ %end;
+    hrs_wave15 char(40) format = $40.;
+quit;
+%end;
+
+
 data _temp_;
- set _temp_;
- c1 = "*";
- if clength ne "" then do;
-   c1 = substr(clength,1,1);
-   put clength =  c1=;
-   if c1 = ":" then clength = substr(clength,2);
- end;
-
- if clength ne "" then do;
-   c1 = substr(clength,1,1);
-   put clength =  c1=;
-   if c1 = "`" then clength = substr(clength,2);
- end;
- drop c1;
+  set _temp_;
+  file print;
+  if _n_= 1 then put "===> Table &table is sanitized";
 run;
-%put --- sanitize_clength ENDS ---;
-%put;
 
-%put --- sanitize_dispatch STARTS ---;
-data _temp_;
+%sanitize_temp_(clength);
+%sanitize_temp_(dispatch);
+%sanitize_temp_(wave_pattern);
+%sanitize_temp_(wave_summary);
+
+data _libmap0.&mapx.0 (label = "Map &mapx.0 (initial version) created from &xlsx_name..xlsx on &sysdate");
  set _temp_;
- c1 = "*";
- if dispatch ne "" then do;
-   c1 = substr(dispatch,1,1);
-   if c1 = ":" then dispatch = substr(dispatch,2);
- end;
-
- if dispatch ne "" then do;
-   c1 = substr(dispatch,1,1);
-   if c1 = "`" then dispatch = substr(dispatch,2);
- end;
- drop c1;
-run;
-%put --- sanitize_dispatch ENDS ---;
-%put;
-
-%put --- sanitize wave_pattern STARTS ---;
-data _temp_;
- set _temp_;
- c1 = "*";
- if wave_pattern ne "" then do;
-   c1 = substr(wave_pattern,1,1);
-   put wave_pattern=  c1=;
-   if c1 = ":" then wave_pattern = substr(wave_pattern,2);
- end;
-
- if wave_pattern ne "" then do;
-   c1 = substr(wave_pattern,1,1);
-   put wave_pattern =  c1=;
-   if c1 = "`" then wave_pattern = substr(wave_pattern,2);
- end;
- drop c1;
-run;
-%put --- sanitize_wave_pattern ENDS ---;
-%put;
-
-%put --- sanitize wave_summary STARTS ---;
-data _temp_;
- set _temp_;
- c1 = "*";
- if wave_summary ne "" then do;
-   c1 = substr(wave_summary,1,1);
-   put wave_summary=  c1=;
-   if c1 = ":" then wave_summary = substr(wave_summary,2);
- end;
-
- if wave_summary ne "" then do;
-   c1 = substr(wave_summary,1,1);
-   put wave_summary =  c1=;
-   if c1 = "`" then wave_summary = substr(wave_summary,2);
- end;
- drop c1;
-run;
-%put --- sanitize_wave_summary ENDS ---;
-%put;
-
-
-data _libmap1.&mapx.0 (label = "Map Table &mapx created from &xlsx_name..xlsx on &sysdate");
- set _temp_;
+ if dispatch = "=" then dispatch = "=?"; 
 run;
 
 %put --- Macro `import_xlsx_map` EXIT (table =&table);

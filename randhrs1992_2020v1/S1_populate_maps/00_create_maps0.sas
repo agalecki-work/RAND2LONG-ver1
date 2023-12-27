@@ -1,7 +1,7 @@
 /* NOTE: autoexec.sas executed */
-options mprint;
+options mprint formdlim=" ";
 
-libname _libmap1  "&prj_path\&dir_name\maps_init";
+libname _libmap0  "&prj_path\&dir_name\maps0";
 
 * Local macros loaded;
 filename macros "&prj_path\&dir_name\_macros";
@@ -13,6 +13,11 @@ filename macros "&prj_path\&dir_name\_macros";
 
 
 %import_xlsx_maps_info;
+
+data _libmap0.maps_info;
+ set maps_info;
+run;
+
 
 data maps_info2;
  set maps_info;
