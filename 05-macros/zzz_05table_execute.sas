@@ -1,11 +1,6 @@
-%macro zzz_05main_execute;
+%macro zzz_05table_execute;
 
-%put ====> Macro `zzz_05main_execute` STARTS here;
-%global HRS_RAND2LONG_version traceit vars_map;
-%global waves_list waves_elist waves_sel wave_max_no;
-
-%***_usetup_mvars;
-
+%put ====> Macro `zzz_05table_execute` STARTS here;
 
 
 
@@ -114,7 +109,7 @@ filename map_file clear;
 %put Macro `zzz_05main_execute` ends here;
 
 %mend skipit;
-%put --- Macro `zzz_05main_execute` ENDS here;
+%put --- Macro `zzz_05table_execute` ENDS here;
 %put;
 
-%mend zzz_05main_execute;
+%mend zzz_05table_execute;

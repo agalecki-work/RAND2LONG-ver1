@@ -71,10 +71,12 @@ data _temp_;
 run;
 
 %sanitize_temp_(label);
+%sanitize_temp_(label, x=`);
+
 %sanitize_temp_(clength);
 %sanitize_temp_(dispatch);
-%*sanitize_temp_(wave_pattern);
-%*sanitize_temp_(wave_summary);
+%sanitize_temp_(clength, x=`);
+%sanitize_temp_(dispatch, x=`);
 
 data _libmap0.&mapx.0 (label = "Map &mapx.0 (initial version) created from &xlsx_name..xlsx on &sysdate");
  set _temp_;

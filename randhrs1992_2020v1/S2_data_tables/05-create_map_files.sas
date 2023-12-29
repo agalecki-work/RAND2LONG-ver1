@@ -102,7 +102,6 @@ run;
 %let keep1=;
 %if (&tbl = RLONG or &tbl = HLONG or &tbl = RSSI) %then %let keep1= wave_pattern wave_summary; 
 data _dictionary_init;
-
   set _stmnts0(keep= name ctype label clength format dispatch &keep1);
   if substr(ctype,1,1)= "A";
 run;
@@ -111,8 +110,10 @@ data _dictionary;
   retain varnum;
   set _dictionary_init;
  varnum = _n_;
+ valid_name = nvalid(name,'v7');
+ if  ctype='A0' then varin =1; else varin =0;
+
 run;
-  
 
 %mend create_dictionary;
 
@@ -166,7 +167,27 @@ run;
 
 %traceit(&table._dictionary);
 
+/* --- Map file initiated ---*/
+data _null_;
+  file map_file;
+  put "/* This is map_file `&table._map_file.inc` for `&table._table` dataset */";
+  put "/* Repo name := &repo_name (version &repo_version) */";
+  put "/* Project name := &prj_name */";
+  put "/* Excel map: &xlsx_name..xlsx */";
+  put "/* Date stamp: &sysdate  */";
+  put /;
+run;
 
+/* Basic set of macros appended to `map_file` file */
+%put_init_macro_stmnts;
+
+/* Main macro appended to `map_file`*/
+data _null_;
+  set &table._stmnts;
+  file map_file mod ;
+  if _n_ =1 then put "/* Macro `process_data for `&table` */";
+  put stmnt ";";
+run;
 
 %mend _05map_file_create;
 
