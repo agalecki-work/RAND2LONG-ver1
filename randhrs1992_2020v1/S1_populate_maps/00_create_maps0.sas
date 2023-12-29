@@ -16,20 +16,14 @@ filename macros "&prj_path\&dir_name\_macros";
 
 data _libmap0.maps_info;
  set maps_info;
+ length cwaves_count $3;
+ cwaves_count = strip(put(waves_count, 3.));
 run;
 
+%import_xlsx_map(RLong);
+%import_xlsx_map(HLong);
+%import_xlsx_map(Rwide);
+%import_xlsx_map(Rexit);
+%import_xlsx_map(RSSI);
 
-data maps_info2;
- set maps_info;
- length stmnt $ 200;
- stmnt = '%import_xlsx_map(' || strip(table) || ");";
-run;
-
-proc print data=maps_info2;
-run;
-
-data _null_;
- set maps_info2;
- call execute(stmnt);
-run;
 

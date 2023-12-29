@@ -1,20 +1,25 @@
 %macro populate_RSSI_map;
 %let waves_list = RSSI_E1-RSSI_E11;
 
-/* Use `wave_pattern` variable to populate `wave_summary`and `waves_list` variables */
+/* Use name and dispatch variable to populate `wave_pattern`,  `wave_summary`and `waves_list` variables */
 /* Macro variable `waves_list` is required  */
 
 %put --- Macro populate_RSSI_map.  waves_list := &waves_list;
 data _libmap.RSSI_map; 
  retain name label clength format dispatch wave_summary wave_pattern;
  set _libmap0.RSSI_map0;
- array _waves {*} $35  &waves_list;
+ array _waves {*} $40  &waves_list;
  
  length c2 $2;
  length ci $30; 
  length c1 $1;
- length tmpci $35;
+
+ length wave_summary wave_pattern $40;
  c1 = substr(strip(name),1,1);
+ if c1 =":" then do;
+  wave_summary="";
+  wave_pattern="";
+ end;
  if c1 ne ":" then DO;
  countx = dim(_waves);
  wave_summary ="All episodes"; 
@@ -24,7 +29,7 @@ data _libmap.RSSI_map;
   wave_pattern = "RAND var";
  end;
  
- if dispatch = "=" then do;
+ if dispatch in ("=?", "=") then do;
    wave_summary = "All episodes";
    wave_pattern = tranwrd(upcase(name),"_E","[E]"); 
   end;
@@ -42,9 +47,7 @@ data _libmap.RSSI_map;
  end;
  end;
  END;
- %populate_stmnt;
- 
-  
+   
  drop i countx ci c2 c1;
  
 run;

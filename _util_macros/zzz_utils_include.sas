@@ -4,6 +4,11 @@
 %put  - macro `attrn_nlobs`;
 %include _macros(attrn_nlobs);
 
+/*-- `varExist` */
+%put  - macro `varExist`;
+%include _macros(varExist);
+
+
 /*-- `checkdupkey` */
 %put  - macro `checkdupkey`;
 %include _macros(checkdupkey);

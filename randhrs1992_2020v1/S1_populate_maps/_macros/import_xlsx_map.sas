@@ -15,14 +15,26 @@ proc import
 run;
 quit;
 
+%put --- Macro `import_xlsx_map` for table &table  (STEP 1);
+%let varexist =%varexist(WORK._TEMP_, wave_summary);
+%put varexist := &varexist;
+
+data _temp_;
+  set _temp_;
+  %if %varexist(_temp_, wave_summary) %then drop wave_summary;;
+  %if %varexist(_temp_, wave_pattern) %then drop wave_pattern;;
+run;
+
+
 /*=== Increase length of selected variables ==== */
 /* - clength variable */
 proc sql noprint;
 alter table _temp_
   modify clength char(5) format = $5.,
-         wave_pattern char(40) format = $40.,
-         wave_summary char(40) format = $40.,
-         dispatch char(100) format = $100.;
+         /* wave_pattern char(40) format = $40., */
+         /* wave_summary char(40) format = $40., */
+         dispatch char(100) format = $100.
+         ;
          
 quit;
 
@@ -37,7 +49,9 @@ alter table _temp_
 quit;
 %end;
 
+
 %if (%upcase(&table) = RLONG or %upcase(&table) = HLONG)  %then %do;
+%put --- IF RLONG or HLONG: STEP 3A;
 proc sql noprint;
 alter table _temp_
   modify
@@ -48,6 +62,7 @@ alter table _temp_
 quit;
 %end;
 
+%put --- Macro `import_xlsx_map` for table &table  (sanitation);
 
 data _temp_;
   set _temp_;
@@ -55,10 +70,11 @@ data _temp_;
   if _n_= 1 then put "===> Table &table is sanitized";
 run;
 
+%sanitize_temp_(label);
 %sanitize_temp_(clength);
 %sanitize_temp_(dispatch);
-%sanitize_temp_(wave_pattern);
-%sanitize_temp_(wave_summary);
+%*sanitize_temp_(wave_pattern);
+%*sanitize_temp_(wave_summary);
 
 data _libmap0.&mapx.0 (label = "Map &mapx.0 (initial version) created from &xlsx_name..xlsx on &sysdate");
  set _temp_;

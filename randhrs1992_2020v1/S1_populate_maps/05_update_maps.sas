@@ -18,6 +18,8 @@ filename macros "&prj_path\&dir_name\_macros";
 %_project_setup;
 
 
+
+
  ods listing close;
  ods html  path =     "&prj_path\&dir_name" (URL=NONE)
            file =     "05-updated_maps-body.html"
@@ -30,6 +32,14 @@ data _libmap.maps_info;
 run;
 
 %traceit_print(maps_info, libname = _libmap);
+
+%populate_1rps_map(Rwide);
+%traceit_print(Rwide_map, libname = _libmap);
+
+%populate_1rps_map(Rexit);
+%traceit_print(Rexit_map, libname = _libmap);
+
+
 %populate_RSSI_map;   /* RSSI_map0 -> RSSI_map */
 %traceit_print(RSSI_map, libname = _libmap);
 %populate_RLmaps(RLong);
