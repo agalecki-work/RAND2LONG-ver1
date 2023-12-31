@@ -1,10 +1,11 @@
 %macro import_xlsx_map (table);
+
 %put ===>  Macro `import_xlsx_map` STARTS for table &table;
 %let tmp = &xlsx_path\&xlsx_name..xlsx;
 %put tmp := &tmp;
 %let mapx = &table._map;
 %put mapx :=&mapx;
-
+ods html exclude all;
 proc import 
     out=_temp_ 
     datafile="&tmp" 
@@ -82,6 +83,11 @@ data _libmap0.&mapx.0 (label = "Map &mapx.0 (initial version) created from &xlsx
  set _temp_;
  if dispatch = "=" then dispatch = "=?"; 
 run;
+
+
+ods html exclude none;
+%traceit_print(&mapx.0, libname= _libmap0);
+ods html exclude all;
 
 %put --- Macro `import_xlsx_map` EXIT (table =&table);
 %put; 

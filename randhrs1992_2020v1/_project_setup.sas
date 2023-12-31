@@ -5,14 +5,15 @@
 /* Declare global macro variables */
 %global repo_path repo_name prj_name dir_name;
 %global xlsx_path xlsx_name dir_path table_version;
-%global datain wide_datain formats_cntlin map_file;
+%*global   map_file;
+%global datain formats_cntlin wide_datain;
 %global fcmp_src_path;
 
 %let prj_path = &repo_path\&prj_name;
 
 /*------ Excel file multiple maps ------*/
-%let xlsx_nickname = test2_maps;   /* */
-%let xlsx_date =23DEC2023;
+%let xlsx_nickname = test3_maps;   /* */
+%let xlsx_date =30DEC2023;
 %let xlsx_path = C:\temp;
 %let xlsx_name =&xlsx_nickname&xlsx_date;   
 %let table_version = &repo_version-&xlsx_date;

@@ -74,24 +74,24 @@ data _null_;
   put /;
 run;
 
-/* Readvar list */
+/* Readvar1_list */
 
 data _null_;
   file map_file mod ;
-  put / '%macro readvar_list;'; 
+  put / '%macro readvar1_list;'; 
   put "/* List of variables to be read from input dataset */";
 run;
 
 data _null_;
   file map_file mod ;
-  %if &cwaves_count = 1 %then put '%keep_varlist'; 
-    %else put '_ALL_';;
+  set _dictionary;
+  if varin =1 then put @3 name  @45 '/* _' +(-1) varnum '*/';
 run;
 
 
 data _null_;
   file map_file mod ;
-  put '%mend readvar_list;';   
+  put '%mend readvar1_list;';   
 run;
 
 
@@ -143,7 +143,7 @@ data _null_;
   put "/*  Depends on table type through `process_data` macro */";
   put ' data _outtable;';
   put '  if 0 then set _template_longout;';
-  put '   set &datain(keep = %' 'readvar_list);';
+  put '   set &datain(keep = %' 'readvar1_list %' 'readvar2_list);';
   put '   %' 'process_data;';
   put '   keep %' 'keep_varlist;';
   put ' run;';

@@ -41,6 +41,11 @@
 %put  - macro `traceit`;
 %include _macros(traceit);
 
+/*-- `html_content_title` */
+%put  - macro `html_content_title`;
+%include _macros(html_content_title);
+
+
 %put --- Macro `zzz_utils_include` ENDS here;
 %put;
 

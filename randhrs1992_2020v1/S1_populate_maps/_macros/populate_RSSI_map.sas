@@ -2,11 +2,12 @@
 %let waves_list = RSSI_E1-RSSI_E11;
 
 /* Use name and dispatch variable to populate `wave_pattern`,  `wave_summary`and `waves_list` variables */
+/* Variables `wave_pattern0`,  `wave_summary0` will be ignored */
 /* Macro variable `waves_list` is required  */
 
 %put --- Macro populate_RSSI_map.  waves_list := &waves_list;
-data _libmap.RSSI_map; 
- retain name label clength format dispatch wave_summary wave_pattern;
+data RSSI_map; 
+ retain name label clength format dispatch  wave_summary0 wave_summary wave_pattern0 wave_pattern;
  set _libmap0.RSSI_map0;
  array _waves {*} $40  &waves_list;
  
@@ -48,7 +49,7 @@ data _libmap.RSSI_map;
  end;
  END;
    
- drop i countx ci c2 c1;
+ drop i countx ci c2 c1 ;
  
 run;
 %mend populate_RSSI_map;
