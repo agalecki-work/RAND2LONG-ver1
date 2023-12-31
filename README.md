@@ -1,7 +1,7 @@
-# HRS-RAND2LONG repository
+# RAND2LONG repository
 
-Goal: Convert RAND SAS dataset from wide format to a long format.
+Goal: Convert RAND SAS dataset from a wide format to a long format.
 
-Go to `randhrs1992_2020v1` folder and follow instructions in `README.md` file.
+Go to the `randhrs1992_2020v1` folder and follow the instructions in the `README.md` file.
 
 
