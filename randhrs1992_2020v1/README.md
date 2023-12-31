@@ -1,16 +1,16 @@
-**WORK IN PROGRESS**
+# !!! WORK IN PROGRESS
 
-* =============== PROGRAM: 20-wide2long.sas =================================== 
-   RELEASE DATE: NOV 30 2023
-   WRITTEN BY Jinkyung Ha, Mohammed Kabeto, and Andrzej Galecki 
-* ================================================================================== ;
+IMPORTANT: After downloading `RAND2lONG` repository locate `project_setup.sas`
+file in this directory and modify `repo_name` and `repo_path` macro variables.
 
 
-* This program reshapes and recodes WIDE dataset into long format.;
+* Programs in this repository were written by:  Jinkyung Ha, Mohammed Kabeto, and Andrzej Galecki 
+
+
+
+* The goal of this project is to reshape and recode RAND HRS Longitudinal File 2020 dataset from wide to long format.;
 * Project has been supported by Pepper Center grant;
 
-
-# RAND HRS Longitudinal File 2020
 
 In this document we describe step-by-step on how to convert **RAND HRS Longitudinal File 2020** from wide format to a long format.
 
@@ -27,8 +27,6 @@ Notes:
 * You will need to register with HRS website to access the data
 * We will refer to `randhrs1992_2020v1.sas7bdat` and `sasfmts.sas7bdat` datasets
 as **DATAIN** and **FORMATS_CNTLIN**, respectively.
-
-
 
 
 ## Prepare `randhrs1992_2020v1_map.xlsx`file with information on mapping **DATAIN** MAP_INFO` dataset
