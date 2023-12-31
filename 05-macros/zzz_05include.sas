@@ -3,10 +3,20 @@
 %put ===> Macro `zzz_05include` STARTS here ======;
 %put --- Macros listed below will be loaded:; 
 
-/*-- `zzz_05table_execute` */
-%put  - macro `zzz_05table_execute`;
-%include _macros(zzz_05table_execute);
 
+/*-- `create_stmnts0_data` */
+%put  - macro `create_stmnts0_data`;
+%include _macros(create_stmnts0_data);
+
+/*-- `create_stmnts_data` */
+%put  - macro `create_stmnts_data`;
+%include _macros(create_stmnts_data);
+
+
+
+/*-- `create_dictionary` */
+%put  - macro `create_dictionary`;
+%include _macros(create_dictionary);
 
 
 /*-- `put_init_macro_stmnts` */

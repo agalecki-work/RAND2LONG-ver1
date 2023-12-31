@@ -1,7 +1,12 @@
-# RAND2LONG repository
+# RAND2LONG
 
-Goal: Convert RAND SAS dataset from a wide format to a long format.
+This repository contains the code to convert the RAND SAS dataset from wide format to a long format. The code is written in SAS.
 
-Go to the `randhrs1992_2020v1` folder and follow the instructions in the `README.md` file.
+## Usage
+
+1. Clone the repository.
+2. Navigate to the `randhrs1992_2020v1` directory.
+3. Follow the instructions in the `README.md` file.
+
 
 
