@@ -1,16 +1,13 @@
 # !!! WORK IN PROGRESS
 
-IMPORTANT: After downloading `RAND2lONG` repository locate `project_setup.sas`
-file in this directory and modify `repo_name` and `repo_path` macro variables.
+IMPORTANT: After downloading `RAND2LONG` repository locate `project_setup.sas`
+file and modify `repo_name` and `repo_path` macro variables.
 
+* This project aims to reshape and recode the RAND HRS Longitudinal File 2020 dataset from wide to long format.
+  
+* The Pepper Center grant has supported the project;
 
 * Programs in this repository were written by:  Jinkyung Ha, Mohammed Kabeto, and Andrzej Galecki 
-
-
-
-* The goal of this project is to reshape and recode RAND HRS Longitudinal File 2020 dataset from wide to long format.;
-* Project has been supported by Pepper Center grant;
-
 
 In this document we describe step-by-step on how to convert **RAND HRS Longitudinal File 2020** from wide format to a long format.
 
@@ -34,10 +31,10 @@ as **DATAIN** and **FORMATS_CNTLIN**, respectively.
 * Prepare SAS dataset referred to as **MAP_INFO** that contains information about mapping of the **DATAIN** dataset from wide to long format.
 * For user covenience this dataset named `randhrs1992_2020v1_map.sas7bdat` has been already prepared.
 
-## Prepare FCMP functions
+## Prepare SAS FCMP functions
 
 * Prepare SAS FCMP functions needed for data conversion.
-* For user covenience the FCMP code  has been already prepared and was stored in  `./usource/FCMP_src.sas` file.
+* For user convenience the FCMP code  has been already prepared and was stored in  the `./usource/FCMP_src.sas` file.
 
 
 
