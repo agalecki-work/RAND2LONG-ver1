@@ -22,9 +22,10 @@ proc print data=contents;
 var varnum name type format nobs;;
 run;
 
-Title "Table: &data.. Selected vars (n=50)";
-proc print data = lib.&data(obs=50);
+Title "Table: &data.. Selected hhids";
+proc print data = lib.&data;
 var  HHID PN HHIDPN WAVE_NUMBER INW HACOHORT STUDYYR R_HECOV3 R_YR;
+where hhid in  ('010533','500121', '208867');
 run;
 
 
