@@ -11,11 +11,11 @@ run;
 
 Title "Table: &data.. Selected vars (n=50)";
 proc print data = lib.&data(obs=50);
-var  RAHHIDPN WAVE_NUMBER INW HACOHORT STUDYYR R_HECOV3 R_YR;
+var  RAHHIDPN WAVE_NUMBER SUBHH INW HACOHORT STUDYYR R_HECOV3 R_YR;
 run;
 
 
-Title "Table: &data..Number of rows per wave";
+Title "Table: &data..Number of rows per study year";
 proc freq data = lib.&data;
 table studyyr;
 run;

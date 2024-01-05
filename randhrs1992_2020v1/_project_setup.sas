@@ -5,7 +5,6 @@
 /* Declare global macro variables */
 %global repo_path repo_name prj_name dir_name;
 %global xlsx_path xlsx_name dir_path table_version;
-%*global   map_file;
 %global datain formats_cntlin wide_datain;
 %global fcmp_src_path;
 
@@ -13,7 +12,7 @@
 
 /*------ Excel file multiple maps ------*/
 %let xlsx_nickname = test3_maps;   /* */
-%let xlsx_date =30DEC2023;
+%let xlsx_date =05JAN2024;
 %let xlsx_path = C:\temp;
 %let xlsx_name =&xlsx_nickname&xlsx_date;   
 %let table_version = &repo_version-&xlsx_date;
@@ -43,7 +42,7 @@ libname LIBIN "C:\temp" access=readonly;
 %put; 
 %put libin_path      := %sysfunc(pathname(libin,L));
 %put DATAIN          := &datain;
-%put formats_cntlin  := formats_cntlin;
+%put formats_cntlin  := &formats_cntlin;
 %put fcmp_src_path   := &fcmp_src_path;
 %put --- `project_setup` macro ENDS here`;
 %put; 

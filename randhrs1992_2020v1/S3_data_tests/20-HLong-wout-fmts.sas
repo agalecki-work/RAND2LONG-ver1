@@ -41,7 +41,7 @@ run;
 
 Title "Table: &data. Selected HHIDs for all waves";
 proc print data = lib.&data;
-var  HHID WAVE_NUMBER H_HHIDC subhh h_hhid PN STUDYYR INW HACOHORT /*H_OHRSHH H_PICKHH */
+var  HHID WAVE_NUMBER H_HHIDC subhh h_hhid INW  /*H_OHRSHH H_PICKHH */
   H_ITOT2 /* H_ATOTB */ H_CHILD H_HHRESP;
  where hhid in  ('010533','500121', '208867');
 run;
@@ -51,15 +51,15 @@ run;
 Title "PROC FREQ without SAS formats";
 Title2 "All missing data categories listed";
 proc freq data = lib.&data;
- 
+tables  H_CHILD  / missing;
 *tables H_PICKHH / missing; 
 *tables H_AFNETHB / missing; 
-
-
 run;
 
 Title2 "All missing data combined";
 proc freq data = lib.&data;
+tables  H_CHILD;
 *tables H_PICKHH; 
-
 run;
+
+
