@@ -69,7 +69,7 @@ proc sort data = mrg;
 by varnum;
 run;
 
-Title "subhh_var=1 indicates candidate subhousehold level variable";
+Title "subhh_var=1 indicates a candidate for subhousehold level variable";
 
 proc print data= mrg;
 var varnum name type  subhh_var label;
