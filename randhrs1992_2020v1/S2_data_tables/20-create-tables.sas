@@ -69,7 +69,7 @@ run;
 %_20create_table(RLong, hhid  PN wave_number);
 
 %*macro skip;
-%_20create_table(HLong, hhid  wave_number H_HHiDC );
+%_20create_table(HLong, hhid  wave_number subhh descending H_PICKHH PN);
 %_20create_table(Rwide, hhid  PN);
 %_20create_table(Rexit, hhid  PN);
 %*mend  skip;
