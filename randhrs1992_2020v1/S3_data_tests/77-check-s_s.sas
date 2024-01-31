@@ -15,6 +15,13 @@ proc sort data= lib.&data out=dt;
 by &grp;
 run;
 
+/* wave #3 omitted */
+data dt;
+ set dt;
+ if wave_number=3 then delete;
+run;
+
+
 
 proc summary data = dt min max noprint;
 var _numeric_;
@@ -69,7 +76,7 @@ proc sort data = mrg;
 by varnum;
 run;
 
-Title "subhh_var=1 indicates a candidate for subhousehold level variable";
+Title "subhh_var=1 indicates a candidate for a subhousehold level variable";
 
 proc print data= mrg;
 var varnum name type  subhh_var label;
