@@ -1,4 +1,4 @@
-libname libout "&dir_path/HRS_package/dictionaries";
+libname libout "&dir_path/HRS_package/data/dict";
 
 
 %let path_aux = &prj_path\S2_data_tables\_05aux;
