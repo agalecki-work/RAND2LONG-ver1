@@ -10,11 +10,82 @@ libname LIBIN "C:\temp" access=readonly;
 %let DATAIN = randhrs1992_2020v1;
 %let wide_datain = libin.&datain;
 %let formats_cntlin = libin.sasfmts;
+%let outdata =;
+
+%let fcmp_src_path = FCMP_src.sas;
+filename fcmp_src "&fcmp_src_path";
 
 
-libname out  "C:\tempout";
-%let outdata_formats = out.fmts_long;
+libname libout  "C:\tempout";
+%let outdata_formats = libout.fmts_long;
 
+
+%macro _create_table(table, key_vars);
+%put ====> Macro `_create_table` STARTS here;
+
+ filename map_file "./map_files/&table._map_file.inc";
+ %include map_file;
+ filename map_file clear; 
+
+ %let tbl_name= &table._table;
+ %let outdata = libout.&tbl_name;
+ %******let outdata_formats =libout._RANDfmts_long;
+
+
+/*--- Create `_template_longout` SAS dataset template (zero observations) for long data ----*/
+%create_template_longout;
+
+data _base_longout(label = "Table %upcase(&table) created from &wide_datain (datestamp: &sysdate, Table Version:= &table_version)");
+  set _template_longout;
+run;
+
+%append_outtable (libin.&datain);   /* RAND data -> _base_longout */
+
+%macro skip; 
+proc sort data = _base_longout nodupkey;
+by &key_vars;   
+run;
+%mend skip;
+
+/* Move and rename  `_base_longout` from `work` to `libout` SAS library (rename_base_longout)*/
+/* Sort respondent data by &sortby (sort_base_logout )*/
+ %if %eval(%length(&key_vars) > 0) %then %do;
+ proc sort data = _base_longout nodupkey;
+ by &key_vars;   *Example: hhid pn wave_number;
+ run;
+ %end;
+
+ 
+ 
+ /* Move and rename  `_base_longout` from `work` to `libout` SAS library */
+
+ %put outdata= &outdata;
+ %*let res = %sysfunc(tranwrd(&outdata, _data., %str()));
+ %let res = %sysfunc(tranwrd(&outdata, libout., %str()));
+ 
+ %put outdata_name := &res;
+ 
+ proc datasets library = work nolist;
+    change _base_longout = &res;
+ run; 
+    copy in=work out=libout memtype=data move;
+    select &res;
+ run;
+ quit;
+
+ 
+
+/*--- Cleanup */
+proc datasets library=work;
+    delete _outtable _TEMPLATE_LONGOUT;
+run;
+
+%put ====> Macro `_create_table` ENDS here;
+
+%mend _create_table;
+
+
+/* ==== Execution starts ==== */
 /* ===== Create SAS formats ====== */
 data _formats_cntlin;
    set &formats_cntlin; 
@@ -61,9 +132,23 @@ proc sort data = sorted_fmts
 by row_num;
 run;
 
+  
+ /* copy formats_cntlin from libin to libout */
+  
+ /* Create `work.formats` catalog from cntlin dataset*/
+ proc format lib = WORK cntlin = &outdata_formats;
+ run;
+  
+ proc datasets lib = work memtype=cat;
+ run;
+ quit;
+ 
+ %put -- catalog work.formats created;
+
+
+
+
 /* ----   FCMP_src.sas ----*/
-%let fcmp_src_path = auxiliary\FCMP_src.sas;
-filename fcmp_src "&fcmp_src_path";
 
 /*--- Include FCMP source ----*/
 proc fcmp outlib = work._WIDE2LONG.all; /* 3 level name */
@@ -76,68 +161,10 @@ options cmplib = work._WIDE2LONG;
 
 
 
+%_create_table(RLong, hhid  PN wave_number);
 
-
-%macro _create_table(table, key_vars);
-%put ====> Macro `_create_table` STARTS here;
-
- filename map_file "./map_files/&table._map_file.inc";
- %include map_file;
- filename map_file clear; 
-
- %let tbl_name= &table._table;
- %let outdata = temp_out.&tbl_name;
- %let outdata_formats =temp_out._RANDfmts_long;
-  
- /* copy formats_cntlin from libin to libout */
-  
- /* Create `work.formats` catalog from cntlin dataset*/
- proc format lib = WORK cntlin = &outdata_formats;
- run;
-  
- proc datasets lib = work memtype=cat;
- run;
- quit;
-
-
- %put -- catalog work.formats created;
-
-/*--- Create `_template_longout` SAS dataset template (zero observations) for long data ----*/
-%create_template_longout;
-
-data _base_longout(label = "Table %upcase(&table) created from &wide_datain (datestamp: &sysdate, Table Version:= &table_version)");
-  set _template_longout;
-run;
-
-%append_outtable (libin.&datain);   /* RAND data -> _base_longout */
- %put ====> Macro `_20create_table` ENDS here;
- 
-proc sort data = _base_longout nodupkey;
-by &key_vars;   
-run;
-
-/* Move and rename  `_base_longout` from `work` to `libout` SAS library */
- %rename_base_longout;
-
-/*--- Cleanup */
-proc datasets library=work;
-    delete _outtable _TEMPLATE_LONGOUT;
-run;
-
-%mend 20create_table;
-
-
-/* Execution starts */
-%*** _project_setup;
-
-
-
-%20create_table(RLong, hhid  PN wave_number);
-
-%macro skip;
-%_20create_table(HLong, hhid  wave_number subhh descending H_PICKHH PN);
-%_20create_table(Rwide, hhid  PN);
-%_20create_table(Rexit, hhid  PN);
-%_20create_table(RSSI,  hhid  PN RSSI_EPISODE);
-%mend  skip;
+%_create_table(HLong, hhid  wave_number subhh descending H_PICKHH PN);
+%_create_table(Rwide, hhid  PN);
+%_create_table(Rexit, hhid  PN);
+%_create_table(RSSI,  hhid  PN RSSI_EPISODE);
 
